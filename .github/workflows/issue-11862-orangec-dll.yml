@@ -34,8 +34,11 @@ jobs:
           version: ${{ matrix.version }}
           cmake-module: false  # Don't patch CMake modules
 
+      - name: Check compiler
+        run: manual.bat
+
       - name: Configure
-        run: cmake -S. -B build -DCMAKE_C_COMPILER=occ -G "MSYS Makefile"
+        run: cmake -S. -B build -DCMAKE_C_COMPILER=occ -G "MSYS Makefiles"
           -DWORKAROUND="${{ matrix.workaround }}"
 
       - name: Build
