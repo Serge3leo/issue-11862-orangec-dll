@@ -22,8 +22,8 @@ jobs:
       fail-fast: false  # jobs without workaround must fails
 
       matrix:
-        version: [7.0.7 6.73.1]  # By Chocolatey installer (occ 6.73.8)
-        workaround: [ON OFF]
+        version: [7.0.7, 6.73.1]  # By Chocolatey installer (occ 6.73.8)
+        workaround: ["ON", "OFF"]
 
     steps:
       - uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
 
       - name: Configure
         run: cmake -S. -B build -DCMAKE_C_COMPILER=occ -G "MSYS Makefile"
-          -DWORKAROUND=${{ matrix.workaround }}
+          -DWORKAROUND="${{ matrix.workaround }}"
 
       - name: Build
         run: cmake --build build
