@@ -3,11 +3,11 @@
 # SPDX-FileCopyrightText: 2026 Сергей Леонтьев (leo@sai.msu.ru)
 
 cmake_minimum_required (VERSION 3.25)
-project(orangec_setup
-        VERSION 0.6.0
+project(Compiler_OrangeC_workaround
+        VERSION 0.1.0
         DESCRIPTION
-        "Use OrangeC in CMake project"
-        HOMEPAGE_URL https://github.com/Serge3leo/orangec-setup.git
+        "Workaround for Compiler/OrangeC.cmake"
+        HOMEPAGE_URL https://github.com/Serge3leo/issue-11862-orangec-dll
         LANGUAGES C)
 
 option(WORKAROUND "CMake Orange C workaround" ON)
