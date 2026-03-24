@@ -1,0 +1,52 @@
+---
+# vim:set sw=2 ts=8 et fileencoding=utf8:
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2026 Сергей Леонтьев (leo@sai.msu.ru)
+
+name: "Orange C DLL CMake issue #27716 PR #11862"
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  VERBOSE: 1
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false  # jobs without workaround must fails
+
+      matrix:
+        version: [7.0.7, 6.73.1]  # By Chocolatey installer (occ 6.73.8)
+        workaround: ["ON", "OFF"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Orange C from Chocolatey Software
+        uses: Serge3leo/orangec-setup@v0
+        with:
+          version: ${{ matrix.version }}
+          cmake-module: no  # Don't patch CMake modules
+
+      - name: Check compiler
+        run: >
+          &.\manual.bat
+
+      - name: Configure
+        run: cmake -S. -B build -DCMAKE_C_COMPILER=occ -G "MSYS Makefiles"
+          -DWORKAROUND="${{ matrix.workaround }}"
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Tests
+        run: ctest --output-on-failure --test-dir build
+
+      - name: Control shot
+        run: build\main-mnld.exe
