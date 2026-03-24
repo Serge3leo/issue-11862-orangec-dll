@@ -32,7 +32,7 @@ jobs:
         uses: Serge3leo/orangec-setup@v0
         with:
           version: ${{ matrix.version }}
-          cmake-module: no  # Don't patch CMake modules
+          cmake-module: 'no'  # Don't patch CMake modules
 
       - name: Check compiler
         run: >
