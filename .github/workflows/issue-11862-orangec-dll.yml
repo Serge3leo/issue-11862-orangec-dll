@@ -35,7 +35,8 @@ jobs:
           cmake-module: false  # Don't patch CMake modules
 
       - name: Check compiler
-        run: manual.bat
+        run: >
+          &.\manual.bat
 
       - name: Configure
         run: cmake -S. -B build -DCMAKE_C_COMPILER=occ -G "MSYS Makefiles"
@@ -48,5 +49,4 @@ jobs:
         run: ctest --output-on-failure --test-dir build
 
       - name: Control shot
-        working-directory: build
-        run: main-mnld.exe
+        run: build\main-mnld.exe
